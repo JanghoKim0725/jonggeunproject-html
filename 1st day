@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제시스템</title>
+  <link rel="stylesheet" href="css/total.css" />
+</head>
+<body>
+
+    <!-- skip 네비게이션 영역 -->
+    <nav id="skipToContent">
+        <ul>
+            <li><a href="#container">Skip to Main Content</a></li>
+            <li><a href="#gnb">Skip to Main Menu</a></li>
+            <li><a href="#header">Skip to Upeer Menu</a></li>
+            <li><a href="#footers">Skip to Lower Menu</a></li>
+        </ul>
+    </nav>
+    <!-- skip 네비게이션 영역 -->
+
+
+
+
+    <!----------------------------- header 헤더 ----------------------------->
+    <header id="header">   
+
+        <!-- nav 영역 -->
+        <nav class="top_nav center">
+            <ul>
+                <li>
+                    <a href="#none">회원가입</a>
+                </li>
+                <li>
+                    <a href="#none">로그인</a>
+                </li>
+                <li>
+                    <a href="#none">고객센터</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- nav 영역 -->
+
+        <div class="h_inner">
+            <div class="menu_bar center">
+                 <!-- header 로고 영역 -->
+                <a href="index.html">
+                    <h1 class="tit_h1">
+                        <span class="blind">logo</span>
+                    </h1>
+                </a>
+                <!-- header 로고 영역 -->
+
+                <!-- header gnb 영역 -->
+                <ul class="gnb">
+                    <li>
+                        <a href="#none">브랜드</a>
+                    </li>
+                    <li>
+                        <a href="#none">건강식품</a>
+                    </li>
+                    <li>
+                        <a href="#none">가공식품</a>
+                    </li>
+                    <li>
+                        <a href="#none">화장품</a>
+                    </li>
+                    <li>
+                        <a href="#none">기능별</a>
+                    </li>
+                </ul>
+                <!-- header gnb 영역 -->
+
+
+
+                <!-- header snb 영역 -->
+                <ul class="snb">
+                    <li>
+                        <a href="#none">마이페이지</a>
+                    </li>
+                    <li>
+                        <a href="#none">장바구니</a>
+                    </li>
+                    <li>
+                        <a href="#none">주문/배송</a>
+                    </li>
+                </ul>
+                <!-- header snb 영역 -->
+            </div>
+        </div>
+    </header>
+    <!----------------------------- header 헤더 ----------------------------->
+
+    <section id="content_wrap">
+        <div class="con_inner inner_L center">
+            <div class="con_title">
+                <p>마이페이지</p>
+            </div>
+        </div>
+        <div class="con_inner inner_R center">
+            <div class="aside">
+                <ul>
+                    <li>
+                        <a href="#none">주문 / 배송 조회</a>
+                    </li>
+                    <li>
+                        <a href="#none">취소 내역</a>
+                    </li>
+                    <li>
+                        <a href="#none">장바구니</a>
+                    </li>
+                    <li>
+                        <a href="#none">1:1 문의</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+
+
+            </div>
+        </div>
+        
+    </section>
+
+
+    
+
+
+
+
+
+
+
+
+</body>
+</html>
