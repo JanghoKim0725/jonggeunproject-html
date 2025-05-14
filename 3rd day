@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제시스템</title>
+  <link rel="stylesheet" href="css/total.css" />
+ </head>
+ <style>
+	
+	/*주문 / 배송 조회화면 css*/
+	
+	#content_wrap .ordl_title {
+		text-align: left;
+		color: #333;
+		font-weight: 500;
+		margin-left: 30px;
+		font-size: 25px;
+	}
+	
+	#content_wrap .ordl_search {
+		margin-left: 30px;
+		width: 890px;
+		height: 60px;
+		border-radius: 7px;
+		opacity: 100%;
+		border: 1px solid #d1d1d1;
+		font-size: 20px;
+		color: #333;
+		padding: 20px;
+	}
+	
+	#content_wrap .ordl_search_button {
+		margin-left: 20px;
+		width: 190px;
+		height: 60px;
+		border-radius: 7px;
+		opacity: 100%;
+		font-size: 20px;
+		background-color: #2360e6;
+		color: #ffffff;
+	}
+	
+	#content_wrap .ordl_tab {
+		margin-top:70px;
+		margin-left: 30px;
+		width: 1100px;
+		height: 38px;
+		opacity: 100%;
+	}
+	
+	#content_wrap .ordl_tab_list {
+		float: left;
+		font-size: 18px;
+		width: 120px;
+		text-align: center;
+		margin-right: 5px;
+	}
+	
+	#content_wrap .ordl_tab_list:hover a {
+		color: #2360e6;
+	}
+	
+	#content_wrap .ordl_main_list {
+		float: left;
+		font-size: 18px;
+		width: 1100px;
+		text-align: left;
+		padding: 30px;
+	}
+	
+	#content_wrap .ordl_tab_list_sub {
+		position: absolute;
+		margin-top:-31px;
+		width:100px;
+		height:40px;
+	}
+	
+	#content_wrap .ordl_tab_list_sub:hover {
+		border-bottom:2px solid #2360e6;
+	}
+	
+	#content_wrap .ordl_tab_list_font {
+		margin-top: -10px;
+	}
+	
+	#content_wrap .ordl_main_table {
+		margin-top: -80px;
+		margin-left: 22px;
+		width: 1130px;
+		height: 340px;
+	}
+	
+	#content_wrap .ordl_main_td {
+		border: none;
+		border-bottom: 2px solid #d1d1d1;
+	}
+	
+	#content_wrap .ordl_main_img {
+		margin-top: 30px;
+		margin-left: -20px;
+		width: 200px;
+		height: 200px;
+	}
+	
+	#content_wrap .ordl_main_font1 {
+		margin-top: -200px;
+		margin-left: 230px;
+		color: #828282;
+	}
+	
+	#content_wrap .ordl_main_font2 {
+		margin-top: -15px;
+		margin-left: 230px;
+		font-weight: 500;
+	}
+	
+	#content_wrap .ordl_main_font3 {
+		width: 100px;
+		height: 170px;
+		margin-top: -20px;
+		margin-left: 700px;
+		font-weight: 500;
+		border-left:  2px solid #d1d1d1;
+		border-right: 2px solid #d1d1d1;	
+	}
+	
+	#content_wrap .ordl_main_font4 {
+		width: 170px;
+		height: 170px;
+		margin-top: -170px;
+		margin-left: 798px;
+		font-weight: 500;
+		border-left:  2px solid #d1d1d1;
+		border-right: 2px solid #d1d1d1;				
+	}
+	
+	#content_wrap .ordl_main_sub_font1 {
+		position: absolute;
+		width:100px;
+		height:40px;
+		margin-left:-2px;
+		text-align:center;
+		margin-top: 70px;
+	}
+	
+	#content_wrap .ordl_main_sub_font2 {
+		position: absolute;
+		width:100px;
+		height:40px;
+		margin-left:35px;
+		text-align:center;
+		margin-top: 70px;
+	}
+	
+	#content_wrap .ordl_main_button1 {
+		margin-top:-60px;
+		margin-left: 1000px;
+		width:86px;
+		height: 42px;
+		border: 1px solid #2360e6;
+		border-radius: 7px;
+		opacity: 100%;
+		font-size: 15px;
+		background-color: #ffffff;
+		color: #2360e6;
+	}
+	
+	#content_wrap .ordl_main_button2 {
+		margin-top:10px;
+		margin-left: 1000px;
+		width:86px;
+		height: 42px;
+		border-radius: 7px;
+		opacity: 100%;
+		font-size: 15px;
+		background-color: #2360e6;
+		color: #ffffff;
+	}
+	
+ </style>
+ <body style="overflow:auto;">
+
+    <!-- skip 네비게이션 영역 -->
+    <nav id="skipToContent">
+        <ul>
+            <li><a href="#container">Skip to Main Content</a></li>
+            <li><a href="#gnb">Skip to Main Menu</a></li>
+            <li><a href="#header">Skip to Upeer Menu</a></li>
+            <li><a href="#footers">Skip to Lower Menu</a></li>
+        </ul>
+    </nav>
+    <!-- skip 네비게이션 영역 -->
+
+
+
+
+    <!----------------------------- header 헤더 ----------------------------->
+    <header id="header">   
+
+        <!-- nav 영역 -->
+        <nav class="top_nav center">
+            <ul>
+                <li>
+                    <a href="#none">회원가입</a>
+                </li>
+                <li>
+                    <a href="#none">로그인</a>
+                </li>
+                <li>
+                    <a href="#none">고객센터</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- nav 영역 -->
+
+        <div class="h_inner">
+            <div class="menu_bar center">
+                 <!-- header 로고 영역 -->
+                <a href="index.html">
+                    <h1 class="tit_h1">
+                        <span class="blind">logo</span>
+                    </h1>
+                </a>
+                <!-- header 로고 영역 -->
+                <!-- header snb 영역 -->
+                <ul class="snb">
+                    <li>
+                        <a href="#none">마이페이지</a>
+                    </li>
+                    <li>
+                        <a href="#none">장바구니</a>
+                    </li>
+                    <li>
+                        <a href="#none">주문/배송</a>
+                    </li>
+                </ul>
+                <!-- header snb 영역 -->
+            </div>
+        </div>
+    </header>
+    <!----------------------------- header 헤더 ----------------------------->
+
+    <section id="content_wrap">
+        <div class="con_inner inner_L center">
+            <div class="con_title">
+                <p>마이페이지</p>
+            </div>
+        </div>
+        <div class="con_inner inner_R center">
+            <div class="aside">
+                <ul>
+                    <li>
+                        <a href="#none">주문 / 배송 조회</a>
+                    </li>
+                    <li>
+                        <a href="#none">취소 내역</a>
+                    </li>
+                    <li>
+                        <a href="#none">장바구니</a>
+                    </li>
+                    <li>
+                        <a href="#none">1:1 문의</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+				<p class="ordl_title">주문 / 배송 조회</p><br>
+				<input type="text" class="ordl_search" placeholder="상품명을 입력하세요">
+				<button type="button" class="ordl_search_button">검색</button><br>
+				<div>
+				<table class="ordl_tab">
+					<tr>
+						<td>
+							<ul>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">전체<div>
+										</div>
+									</a>
+								</li>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">입금 전<div>
+										</div>
+									</a>
+								</li>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">결제 완료<div>
+										</div>
+									</a>
+								</li>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">배송 준비중<div>
+										</div>
+									</a>
+								</li>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">배송 중<div>
+										</div>
+									</a>
+								</li>
+								<li class="ordl_tab_list">
+									<a href="#none">
+										<div class="ordl_tab_list_sub">
+											<div class="ordl_tab_list_font">배송 완료<div>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+					<tr><td height="1" border="2" bgcolor="#d1d1d1"></tr>
+				</table>
+				<div style="margin-top:65px;">
+					<table class="ordl_main_table">
+						<tr>
+							<td class="ordl_main_td">
+								<li class="ordl_main_list">
+									<img src="C:\images\product_img.png" class="ordl_main_img">
+									<div class="ordl_main_font1">락토핏</div><br>
+									<div class="ordl_main_font2">락토핏 골드 1통(50일분)</div>
+									<div class="ordl_main_font3"><div class="ordl_main_sub_font1">2개</div></div>
+									<div class="ordl_main_font4"><div class="ordl_main_sub_font2">135,000원</div></div>
+									<div style="margin-top:-120px;">
+										<button type="button" class="ordl_main_button1">주문상세</button><br>
+										<button type="button" class="ordl_main_button2">주문취소</button>
+									</div>
+								</li>
+							</td>
+						</tr>
+					</table>
+					<table class="ordl_main_table">
+						<tr>
+							<td class="ordl_main_td">
+								<li class="ordl_main_list">
+									<img src="C:\images\product_img.png" class="ordl_main_img">
+									<div class="ordl_main_font1">락토핏</div><br>
+									<div class="ordl_main_font2">락토핏 골드 1통(50일분)</div>
+									<div class="ordl_main_font3"><div class="ordl_main_sub_font1">2개</div></div>
+									<div class="ordl_main_font4"><div class="ordl_main_sub_font2">135,000원</div></div>
+									<div style="margin-top:-120px;">
+										<button type="button" class="ordl_main_button1">주문상세</button><br>
+										<button type="button" class="ordl_main_button2">주문취소</button>
+									</div>
+								</li>
+							</td>
+						</tr>
+					</table>
+					<table class="ordl_main_table">
+						<tr>
+							<td class="ordl_main_td">
+								<li class="ordl_main_list">
+									<img src="C:\images\product_img.png" class="ordl_main_img">
+									<div class="ordl_main_font1">락토핏</div><br>
+									<div class="ordl_main_font2">락토핏 골드 1통(50일분)</div>
+									<div class="ordl_main_font3"><div class="ordl_main_sub_font1">2개</div></div>
+									<div class="ordl_main_font4"><div class="ordl_main_sub_font2">135,000원</div></div>
+									<div style="margin-top:-120px;">
+										<button type="button" class="ordl_main_button1">주문상세</button><br>
+										<button type="button" class="ordl_main_button2">주문취소</button>
+									</div>
+								</li>
+							</td>
+						</tr>
+					</table>
+					<table class="ordl_main_table">
+						<tr>
+							<td class="ordl_main_td">
+								<li class="ordl_main_list">
+									<img src="C:\images\product_img.png" class="ordl_main_img">
+									<div class="ordl_main_font1">락토핏</div><br>
+									<div class="ordl_main_font2">락토핏 골드 1통(50일분)</div>
+									<div class="ordl_main_font3"><div class="ordl_main_sub_font1">2개</div></div>
+									<div class="ordl_main_font4"><div class="ordl_main_sub_font2">135,000원</div></div>
+									<div style="margin-top:-120px;">
+										<button type="button" class="ordl_main_button1">주문상세</button><br>
+										<button type="button" class="ordl_main_button2">주문취소</button>
+									</div>
+								</li>
+							</td>
+						</tr>
+					</table>
+				<div>
+            </div>
+        </div>
+        
+    </section>
+
+
+    
+
+
+
+
+
+
+
+
+ </body>
+</html>
