@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myhome.mapper.JonggeunMapper">
+
+	<select id="selectOrdlList" resultType="Map">
+		SELECT PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DESCRIPTION,PRODUCT_IMG,SALES_CNT FROM PRODUCT
+	</select>
+
+</mapper>
