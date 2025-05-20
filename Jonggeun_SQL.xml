@@ -2,8 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.myhome.mapper.JonggeunMapper">
 
-	<select id="selectOrdlList" resultType="Map">
+	<!-- 주문/배송 조회목록 출력 + 검색기능추가 -->
+	<select id="selectOrdlList" parameterType="UproductDto" resultType="Map">
 		SELECT PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DESCRIPTION,PRODUCT_IMG,SALES_CNT FROM PRODUCT
+		<where>
+			<if test="keyword != null and keyword != ''">
+				AND PRODUCT_DESCRIPTION LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
 	</select>
+	
+	<!-- 주문/배송 조회목록 출력 + 검색기능추가 + 걸제완료순 -->
+	<select id="selectOrdlListPay2" parameterType="UproductDto" resultType="Map">
+		SELECT PR.PRODUCT_NAME,
+			   PR.PRODUCT_PRICE,
+			   PR.PRODUCT_DESCRIPTION,
+			   PR.PRODUCT_IMG,
+			   PR.SALES_CNT,
+			   PM.PAY_DATE FROM PRODUCT PR JOIN PAYMENT PM ON PR.PRODUCT_NO = PM.PRODUCT_NO
+		<where>
+			<if test="keyword != null and keyword != ''">
+				AND PR.PRODUCT_DESCRIPTION LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where> ORDER BY PM.PAY_DATE DESC 
+	</select>
+	
+	<select id="selectDatatotal"    resultType="int">SELECT COUNT(*) FROM PRODUCT</select>
+	
+	<select id="selectOrdlListPay1" resultType="int">SELECT COUNT(PAY_STATUS) FROM PAYMENT</select>
 
 </mapper>
