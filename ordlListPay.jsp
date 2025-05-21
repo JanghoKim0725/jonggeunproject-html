@@ -53,7 +53,7 @@
 	
 	/*전체~배송완료 항목 감싸는 테이블*/
 	#content_wrap .ordl_tab {
-		margin-top:70px;
+		margin-top:39px;
 		margin-left: 30px;
 		width: 1100px;
 		height: 38px;
@@ -103,10 +103,10 @@
 	
 	/*상품정보 메인 테이블*/
 	#content_wrap .ordl_main_table {
-		margin-top:-20px;
+		margin-top:-40px;
 		margin-left: 22px;
 		width: 1130px;
-		height: 1000px;
+		height: 320px;
 	}
 	
 	/*상품정보 메인 td*/
@@ -117,7 +117,6 @@
 	
 	/*상품이미지*/
 	#content_wrap .ordl_main_img {
-		margin-top: -45px;
 		margin-left: -20px;
 		width: 200px;
 		height: 200px;
@@ -145,8 +144,7 @@
 		margin-top: -42px;
 		margin-left: 700px;
 		font-weight: 500;
-		border-left:  2px solid #d1d1d1;
-		border-right: 2px solid #d1d1d1;	
+		border-left:  2px solid #d1d1d1;	
 	}
 	
 	/*가격*/
@@ -301,8 +299,8 @@
                 </ul>
             </div>
             <div class="section">
-				<p class="ordl_title">주문 / 배송 조회</p><br>
-				<form action="/ordlList" method="get">
+				<p class="ordl_title">주문 / 배송 조회(결제완료)</p><br>
+				<form action="/ordlListPay" method="get">
 					<input type="text" name="keyword" class="ordl_search" placeholder="상품명을 입력하세요">
 					<button type="submit" class="ordl_search_button">검색</button>
 				</form><br>
@@ -330,7 +328,9 @@
 								<li class="ordl_tab_list">
 									<a href="#none">
 										<div class="ordl_tab_list_sub">
-											<div class="ordl_tab_list_font">배송 완료<div>
+											<div class="ordl_tab_list_font">
+												<a href="/ordlListDvr">배송 완료</a>
+											<div>
 										</div>
 									</a>
 								</li>
@@ -340,8 +340,8 @@
 					<tr><td height="1" border="2" bgcolor="#d1d1d1"></tr>
 				</table>
 				<div style="margin-top:65px;">
-					<table class="ordl_main_table">
-						<c:forEach var="result" items="${list}">
+					<c:forEach var="result" items="${list}">
+						<table class="ordl_main_table">
 							<tr><td>${result.keyword}</td></tr>
 							<tr>
 								<td class="ordl_main_td">
@@ -366,8 +366,8 @@
 									</li>
 								</td>
 							</tr>
-						</c:forEach>
-					</table>
+						</table>
+					</c:forEach>
 					<div class="ordl_main_page" align="center">
 						<c:forEach var="p" begin="1" end="${totalPage}">
 							<a href="/ordlList?pageIndex=${p}"><font color="#2360e6">${p}</font></a>

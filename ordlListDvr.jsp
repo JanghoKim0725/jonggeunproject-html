@@ -299,10 +299,10 @@
                 </ul>
             </div>
             <div class="section">
-				<p class="ordl_title">주문 / 배송 조회(전체)</p><br>
-				<form action="/ordlList" method="get">
+				<p class="ordl_title">주문 / 배송 조회(배송완료)</p><br>
+				<form action="/ordlListDvr" method="get">
 					<input type="text" name="keyword" class="ordl_search" placeholder="상품명을 입력하세요">
-					<button type="submit" class="ordl_search_button">검색</button>
+					<button onclick="submit" class="ordl_search_button">검색</button>
 				</form><br>
 				<div>
 				<table class="ordl_tab">
