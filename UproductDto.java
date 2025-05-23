@@ -47,6 +47,9 @@ public class UproductDto {
 	   
 	   // 총 페이지개수
 	   int 			totalPage = 0;
+	   
+	   // 출력페이지의 시작번호
+	   int 		   pageRownum = 0;
 		
 	   public String getProduct_no() {return product_no;}
 	   public void setProduct_no(String product_no) {this.product_no = product_no;}
@@ -115,4 +118,7 @@ public class UproductDto {
 	
 	   public int getTotalpage() {return totalPage;}
 	   public void setTotalpage() {this.totalPage = (int)Math.ceil((double)total/pageUnit);}
+	   
+	   public int getPageRownum() {return pageRownum;}
+	   public void setPageRownum() {this.pageRownum = total - (pageIndex - 1) * pageUnit;}	
 }

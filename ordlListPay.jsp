@@ -4,15 +4,34 @@
 <%  // 100000을 100,000변환 jstl %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  
-
 <!DOCTYPE html>
 <html lang="ko">
  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>결제시스템</title>
-  <link rel="stylesheet" href="css/total.css" />
+  <link rel="stylesheet" href="../css/total.css" />
+  <script src="../js/jquery-3.7.1.js"></script>
  </head>
+ <script>
+ $(function() {
+	   const openModalBtn    = document.getElementById('openModalBtn');
+	   const closeModalBtn = document.getElementById('closeModalBtn'); 
+	   const cancelModalBtn = document.getElementById('cancelModalBtn');
+	   
+	   openModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.remove('hidden');
+	   })
+	   
+	   closeModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.add('hidden');
+	   })
+	   
+	   cancelModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.add('hidden');
+	   })
+	});   
+ </script>
  <style>
 	
 	/*주문 / 배송 조회화면 css*/
@@ -189,7 +208,6 @@
 		opacity: 100%;
 		font-size: 15px;
 		background-color: #ffffff;
-		color: #2360e6;
 	}
 	
 	/*주문취소버튼*/
@@ -299,8 +317,8 @@
                 </ul>
             </div>
             <div class="section">
-				<p class="ordl_title">주문 / 배송 조회(결제완료)</p><br>
-				<form action="/ordlListPay" method="get">
+				<p class="ordl_title">주문 / 배송 조회(전체)</p><br>
+				<form action="/ordlList" method="get">
 					<input type="text" name="keyword" class="ordl_search" placeholder="상품명을 입력하세요">
 					<button type="submit" class="ordl_search_button">검색</button>
 				</form><br>
@@ -355,13 +373,22 @@
 										<div class="ordl_main_font4">
 											<div class="ordl_main_sub_font2">
 												<!-- 100000 -> 100,000 -->
-												<fmt:formatNumber value="${result.PRODUCT_PRICE}" 
-																  type="number"/>원
+												<fmt:formatNumber value="${(result.PRODUCT_PRICE * result.SALES_CNT)- 
+													  					  ((result.PRODUCT_PRICE / 100.0 * 
+													  					    result.PRODUCT_SALE) * 
+													  					    result.SALES_CNT)}" type="number"/>원
 											</div>
 										</div>
 										<div style="margin-top:-120px;">
-											<button type="button" class="ordl_main_button1">주문상세</button><br>
-											<button type="button" class="ordl_main_button2">주문취소</button>
+											<button type="button" class="ordl_main_button1">
+												<a href="/ordlDetail/${result.PRODUCT_NO}">
+													<font color="#2360e6">주문상세</font>
+												</a>
+											</button><br>
+											<button type="button" class="ordl_main_button2" 
+													id="openModalBtn">
+												주문취소
+											</button>
 										</div>
 									</li>
 								</td>
@@ -370,13 +397,69 @@
 					</c:forEach>
 					<div class="ordl_main_page" align="center">
 						<c:forEach var="p" begin="1" end="${totalPage}">
-							<a href="/ordlList?pageIndex=${p}"><font color="#2360e6">${p}</font></a>
+							<a href="/ordlListPay?pageIndex=${p}"><font color="#2360e6">${p}</font></a>
 						</c:forEach>
 					</div>
 				<div>
             </div>
         </div>
         
+        
+        <!-- modal start -->
+        <div id="deliveryCancle_modal" class="modal_container hidden">
+            <form id="modalFrm" method="post" action="/updateRecipientInfo">
+               <input type="hidden" id="order_id" name="order_id" value="${order_id}" />
+               <input type="hidden" id="recipient_name_hidden" name="recipient_name_hidden" />
+             <input type="hidden" id="postcode_hidden" name="postcode_hidden" />
+             <input type="hidden" id="address_hidden" name="address_hidden" />
+             <input type="hidden" id="extraAddress_hidden" name="extraAddress_hidden" />
+             <input type="hidden" id="detailAddress_hidden" name="detailAddress_hidden" />
+             
+               <div id="modal_con"class="modal_con center">
+                <div class="modal_header">
+                    <h2>배송지 등록 및 수정</h2>
+                    <button type="button" id="closeModalBtn">
+                       <img src="images/modalClose_btn.svg" alt="모달 닫기 버튼">
+                    </button>
+                </div>
+                <div class="modal_body">
+                  <div class="modal_inner">
+                     <p>받는분</p>
+                     <input type="text" id="recipient_name" placeholder="받는분을 입력해주세요.">
+                  </div>
+                  <div>
+                     <div class="modal_inner">
+                        <p>배송지 주소</p>
+                        <div class="address_wrap">
+                           <input type="text" id="postcode" placeholder="우편 번호를 입력해주세요." readonly>
+                           <button type="button" onclick="execDaumPostcode()" class="blue_btn">주소 찾기</button>
+                        </div>
+                        <input type="text" id="address" placeholder="주소를 입력해주세요." readonly>
+                        <input type="text" id="detailAddress" placeholder="상세 주소를 입력해주세요.">
+                        <input type="text" id="extraAddress" placeholder="참고항목" readonly>
+                        
+                     </div>
+                  </div>
+                  <div class="modal_inner">
+                     <p>배송 요청사항(선택)</p>
+                     <select>
+                        <option value="0" selected>요청 사항을 선택해주세요.</option>
+                        <option value="1">직접 수령할게요.</option>
+                        <option value="2">부재시 경비실에 맡겨주세요.</option>
+                        <option value="3">문앞에 놓아주세요.</option>
+                        <option value="4">파손의 위험이 있는 상품이오니, 배송시 주의해주세요.</option>
+                        <option value="5">배송전에 연락주세요.</option>
+                     </select>
+                  </div>
+                </div>
+                <div class="modalBtn_wrap">
+                   <button type="reset" id="cancelModalBtn" class="blue_border_btn">취소</button>
+                    <button type="submit" id="modal_saveBtn" class="blue_btn">등록</button>
+                </div>
+            </div> 
+            </form>
+        </div>
+        <!-- modal end -->
     </section>
 
 

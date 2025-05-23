@@ -4,15 +4,34 @@
 <%  // 100000을 100,000변환 jstl %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  
-
 <!DOCTYPE html>
 <html lang="ko">
  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>결제시스템</title>
-  <link rel="stylesheet" href="css/total.css" />
+  <link rel="stylesheet" href="../css/total.css" />
+  <script src="../js/jquery-3.7.1.js"></script>
  </head>
+ <script>
+ $(function() {
+	   const openModalBtn    = document.getElementById('openModalBtn');
+	   const closeModalBtn = document.getElementById('closeModalBtn'); 
+	   const cancelModalBtn = document.getElementById('cancelModalBtn');
+	   
+	   openModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.remove('hidden');
+	   })
+	   
+	   closeModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.add('hidden');
+	   })
+	   
+	   cancelModalBtn.addEventListener('click',() => {
+		   deliveryCancle_modal.classList.add('hidden');
+	   })
+	});   
+ </script>
  <style>
 	
 	/*주문 / 배송 조회화면 css*/
@@ -189,7 +208,6 @@
 		opacity: 100%;
 		font-size: 15px;
 		background-color: #ffffff;
-		color: #2360e6;
 	}
 	
 	/*주문취소버튼*/
@@ -355,13 +373,22 @@
 										<div class="ordl_main_font4">
 											<div class="ordl_main_sub_font2">
 												<!-- 100000 -> 100,000 -->
-												<fmt:formatNumber value="${result.PRODUCT_PRICE}" 
-																  type="number"/>원
+												<fmt:formatNumber value="${(result.PRODUCT_PRICE * result.SALES_CNT)- 
+													  					  ((result.PRODUCT_PRICE / 100.0 * 
+													  					    result.PRODUCT_SALE) * 
+													  					    result.SALES_CNT)}" type="number"/>원
 											</div>
 										</div>
 										<div style="margin-top:-120px;">
-											<button type="button" class="ordl_main_button1">주문상세</button><br>
-											<button type="button" class="ordl_main_button2">주문취소</button>
+											<button type="button" class="ordl_main_button1">
+												<a href="/ordlDetail/${result.PRODUCT_NO}">
+													<font color="#2360e6">주문상세</font>
+												</a>
+											</button><br>
+											<button type="button" class="ordl_main_button2" 
+													id="openModalBtn">
+												주문취소
+											</button>
 										</div>
 									</li>
 								</td>
@@ -377,6 +404,62 @@
             </div>
         </div>
         
+        
+        <!-- modal start -->
+        <div id="deliveryCancle_modal" class="modal_container hidden">
+            <form id="modalFrm" method="post" action="/updateRecipientInfo">
+               <input type="hidden" id="order_id" name="order_id" value="${order_id}" />
+               <input type="hidden" id="recipient_name_hidden" name="recipient_name_hidden" />
+             <input type="hidden" id="postcode_hidden" name="postcode_hidden" />
+             <input type="hidden" id="address_hidden" name="address_hidden" />
+             <input type="hidden" id="extraAddress_hidden" name="extraAddress_hidden" />
+             <input type="hidden" id="detailAddress_hidden" name="detailAddress_hidden" />
+             
+               <div id="modal_con"class="modal_con center">
+                <div class="modal_header">
+                    <h2>배송지 등록 및 수정</h2>
+                    <button type="button" id="closeModalBtn">
+                       <img src="images/modalClose_btn.svg" alt="모달 닫기 버튼">
+                    </button>
+                </div>
+                <div class="modal_body">
+                  <div class="modal_inner">
+                     <p>취소번호</p>
+                     <input type="text" id="recipient_name" placeholder="임의의 취소번호를 작성하세요.(문자조합가능)">
+                  </div>
+                  <div class="modal_inner">
+                     <p>주문번호</p>
+                     <input type="text" id="recipient_name" placeholder="주문번호를 입력하세요.">
+                  </div>
+                  <div class="modal_inner">
+                     <p>결제번호</p>
+                     <input type="text" id="recipient_name" placeholder="결제번호를 입력하세요.(문자조합가능)">
+                  </div>
+                  <div class="modal_inner">
+                     <p>사용자</p>
+                     <input type="text" id="recipient_name" placeholder="사용자아이디를 입력하세요.">
+                  </div>
+                  <div class="modal_inner">
+                     <p>취소 사유사항(선택)</p>
+                     <select>
+                        <option value="0" selected>취소 사유를 말씀해주세요.</option>
+                        <option value="1">단순변심.</option>
+                        <option value="2">허위상표.</option>
+                        <option value="3">물품파기.</option>
+                        <option value="4">품질불량.</option>
+                        <option value="5">배송지연.</option>
+                        <option value="5">배송오류(잘못된물건).</option>
+                     </select>
+                  </div>
+                </div>
+                <div class="modalBtn_wrap">
+                   <button type="reset" id="cancelModalBtn" class="blue_border_btn">취소</button>
+                    <button type="submit" id="modal_saveBtn" class="blue_btn">등록</button>
+                </div>
+            </div> 
+            </form>
+        </div>
+        <!-- modal end -->
     </section>
 
 

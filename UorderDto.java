@@ -5,18 +5,22 @@ import lombok.Data;
 @Data
 public class UorderDto {
 
-	String 		  order_id;
-	String 		product_no;
-	int 		 order_cnt;
-	String 	   order_rdate;
-	String delivery_method;
-	String 	  delivery_fee;
-	String 	 delivery_cate;
-	int 		   user_no;
-	String 	  order_status;
-	String 		    pay_id;
-	String 	    cancel_num;
-	String 		  admin_id;
+	String 		    order_id;
+	String 		  product_no;
+	int 		   order_cnt;
+	String 	     order_rdate;
+	String   delivery_method;
+	String 	    delivery_fee;
+	String 	   delivery_cate;
+	int 		     user_no;
+	String 	    order_status;
+	String 		      pay_id;
+	String 	      cancel_num;
+	String 		  	admin_id;
+	String     ecipient_name;
+	String recipient_address;
+	String 	 recipient_phone;
+	String  delivery_request;
 	
 	public String getOrder_id() {return order_id;}
 	public void setOrder_id(String order_id) {this.order_id = order_id;}
@@ -52,5 +56,17 @@ public class UorderDto {
 	public void setCancel_num(String cancel_num) {this.cancel_num = cancel_num;}
 	
 	public String getAdmin_id() {return admin_id;}
-	public void setAdmin_id(String admin_id) {this.admin_id = admin_id;}	
+	public void setAdmin_id(String admin_id) {this.admin_id = admin_id;}
+	
+	public String getEcipient_name() {return ecipient_name;}
+	public void setEcipient_name(String ecipient_name) {this.ecipient_name = ecipient_name;}
+	
+	public String getRecipient_address() {return recipient_address;}
+	public void setRecipient_address(String recipient_address) {this.recipient_address = recipient_address;}
+	
+	public String getRecipient_phone() {return recipient_phone;}
+	public void setRecipient_phone(String recipient_phone) {this.recipient_phone = recipient_phone;}	
+	
+	public String getDelivery_request() {return delivery_request;}
+	public void setDelivery_request(String delivery_request) {this.delivery_request = delivery_request;}
 }

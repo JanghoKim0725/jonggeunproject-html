@@ -1,14 +1,11 @@
 package com.myhome.service;
-
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.myhome.dto.UorderDto;
 import com.myhome.dto.UpaymentDto;
 import com.myhome.dto.UproductDto;
+import com.myhome.dto.DetailDto;
 import com.myhome.mapper.JonggeunMapper;
 
 @Service
@@ -17,7 +14,7 @@ public class JonggeunServiceImpl implements JonggeunService {
 	@Autowired
 	JonggeunMapper mapper;
 
-	// 주문/배송 조회목록 출력 + 검색기능 추가
+	// 주문/배송 조회목록 출력 + 검색기능 추가 (본데이터)
 	@Override
 	public List<?>     selectOrdlList(UproductDto dto) throws Exception {return mapper.selectOrdlList(dto);}
 	
@@ -31,13 +28,17 @@ public class JonggeunServiceImpl implements JonggeunService {
 	
 	// 주문/배송 조회목록 페이지 출력
 	@Override
-	public int 	      selectDataTotal(UproductDto dto) throws Exception {return mapper.selectDatatotal(dto);}
+	public int 	      selectDataTotal(UproductDto dto) throws Exception {return mapper.selectDataTotal(dto);}
 	
-	// 결제완료 확인여부
+	// 주문/배송 조회목록 (결제완료된 데이터개수만큼의) 페이지 출력
 	@Override
-	public int     selectOrdlListPay1(UpaymentDto upy) throws Exception {return mapper.selectOrdlListPay1(upy);}
+	public int selectDataTotalPay(UproductDto upr) throws Exception {return mapper.selectDataTotalPay(upr);}
 	
-	// 배송(주문)완료 확인여부
+	// 주문/배송 조회목록 (배송(주문)완료된 데이터개수만큼의) 페이지 출력
 	@Override
-	public int 	     selectOrdlListDvr1(UorderDto ord) throws Exception {return mapper.selectOrdlListDvr1(ord);}
+	public int selectDataTotalDvr(UproductDto upr) throws Exception {return mapper.selectDataTotalDvr(upr);}
+
+	// 상세정보
+	@Override
+	public DetailDto selectordlDetail(int product_no) throws Exception {return mapper.selectOrdlDetail(product_no);}
 }
