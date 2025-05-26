@@ -17,7 +17,7 @@ public class UorderDto {
 	String 		      pay_id;
 	String 	      cancel_num;
 	String 		  	admin_id;
-	String     ecipient_name;
+	String     recipient_name;
 	String recipient_address;
 	String 	 recipient_phone;
 	String  delivery_request;
@@ -58,8 +58,8 @@ public class UorderDto {
 	public String getAdmin_id() {return admin_id;}
 	public void setAdmin_id(String admin_id) {this.admin_id = admin_id;}
 	
-	public String getEcipient_name() {return ecipient_name;}
-	public void setEcipient_name(String ecipient_name) {this.ecipient_name = ecipient_name;}
+	public String getEcipient_name() {return recipient_name;}
+	public void setEcipient_name(String recipient_name) {this.recipient_name = recipient_name;}
 	
 	public String getRecipient_address() {return recipient_address;}
 	public void setRecipient_address(String recipient_address) {this.recipient_address = recipient_address;}

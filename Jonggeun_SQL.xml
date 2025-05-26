@@ -58,6 +58,43 @@
     	</where> ORDER BY OD.ORDER_RDATE DESC)A)B WHERE RN >= #{firstIndex} AND RN <![CDATA[<]]>= #{lastIndex}  
 	</select>
 	
+	<!-- 취소/교환/반품 조회목록 출력 + 검색기능추가 -->
+	<select id="selectCerList" parameterType="UproductDto" resultType="Map">
+		SELECT 	          B. * FROM (
+		SELECT ROWNUM RN, A. * FROM (
+		SELECT PRODUCT_NO,
+			   PRODUCT_NAME,
+			   PRODUCT_PRICE,
+			   PRODUCT_DESCRIPTION,
+			   PRODUCT_IMG,
+			   SALES_CNT,
+			   PRODUCT_SALE FROM PRODUCT
+		<where>
+			<if test="keyword != null and keyword != ''">
+				AND PRODUCT_DESCRIPTION LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where> ORDER BY PRODUCT_NO DESC)A)B WHERE RN >= #{firstIndex}  AND RN <![CDATA[<]]>= #{lastIndex}
+	</select>
+	
+	<!-- 취소/교환/반품목록 출력 + 검색기능추가 + 취소신청날짜순 -->
+	<select id="selectCerListRequest2" parameterType="UproductDto" resultType="Map">
+		SELECT 	          B. * FROM (
+		SELECT ROWNUM RN, A. * FROM (
+		SELECT PR.PRODUCT_NO,
+			   PR.PRODUCT_NAME,
+			   PR.PRODUCT_PRICE,
+			   PR.PRODUCT_DESCRIPTION,
+			   PR.PRODUCT_IMG,
+			   PR.SALES_CNT,
+			   PR.PRODUCT_SALE,
+			   CO.CANCEL_DATE FROM PRODUCT PR JOIN CANCELORDER CO ON PR.PRODUCT_NO = CO.PRODUCT_NO
+		<where>
+			<if test="keyword != null and keyword != ''">
+				AND PR.PRODUCT_DESCRIPTION LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where> ORDER BY CO.CANCEL_DATE DESC)A)B WHERE RN >= #{firstIndex} AND RN <![CDATA[<]]>= #{lastIndex}  
+	</select>
+	
 	<!-- 페이징 출력조건 데이터 개수 (출력항목 개수) + 검색기능별 분류 추가 -->
 	<select id="selectDataTotal"    resultType="int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -90,7 +127,18 @@
     	</where> 
 	</select>
 	
-	<!-- // 상세정보(상단,결제정보) 출력 -상품,주문,결제테이블 기반 SQL -->
+	<!-- 페이징 출력조건 데이터 개수 (출력항목 취소신청된 데이터개수) + 검색기능별 분류 추가 -->
+	<select id="selectDataTotalRequest"    resultType="int">
+		SELECT COUNT(*) FROM PRODUCT PR JOIN CANCELORDER CO ON PR.PRODUCT_NO = CO.PRODUCT_NO 
+		<where>
+			CO.CANCEL_STATUS = '취소신청'
+			<if test="keyword != null and keyword != ''">
+				AND PR.PRODUCT_DESCRIPTION LIKE '%' || #{keyword} || '%'
+	        </if>
+    	</where>
+	</select>
+	
+	<!-- // 상세정보 출력 -배송,주문,결제 -->
 	<select id="selectOrdlDetail" resultType="DetailDto">
 		SELECT PR.PRODUCT_NO,
 			   PR.PRODUCT_IMG,
@@ -110,5 +158,63 @@
 		JOIN   PAYMENT PM ON OD.PRODUCT_NO = PM.PRODUCT_NO
 		WHERE PR.PRODUCT_NO = #{product_no}    
 	</select>
+	
+	<!-- // 상세정보 출력 -취소 -->
+	<select id="selectcerDetail" resultType="DetailDto">
+		SELECT PR.PRODUCT_NO,
+			   PR.PRODUCT_IMG,
+			   OD.ORDER_ID,
+			   PR.PRODUCT_NAME,
+			   PR.PRODUCT_DESCRIPTION,
+			   PR.PRODUCT_SALE,
+			   PR.PRODUCT_PRICE,
+			   PR.SALES_CNT,
+			   OD.DELIVERY_FEE,
+			   CO.CANCEL_DATE,
+			   CO.CANCEL_REASON,
+			   PM.PAY_METHOD FROM PRODUCT PR 
+		JOIN   ORDERITEM OD ON PR.PRODUCT_NO = OD.PRODUCT_NO 
+		JOIN     PAYMENT PM ON OD.PRODUCT_NO = PM.PRODUCT_NO
+		JOIN CANCELORDER CO ON PM.PRODUCT_NO = CO.PRODUCT_NO
+		WHERE PR.PRODUCT_NO = #{product_no}    
+	</select>
+	
+	<!-- 취소목록에 데이터입력 -->
+	<insert id="insertCancelOrder">
+		INSERT INTO CANCELORDER (CANCEL_NUM,
+								   ORDER_ID,
+									 PAY_ID,
+								    USER_ID,
+							  CANCEL_REASON,
+							    CANCEL_DATE,
+							  CANCEL_STATUS,
+							   REFUND_PRICE,
+								    USER_NO,
+								   ADMIN_ID)
+		SELECT CANCELORDER_SEQ.NEXTVAL,
+			   OD.ORDER_ID,
+			   PM.PAY_ID,
+			   UI.USER_ID,
+			   #{cancel_reason},
+			   sysdate,
+			   '취소완료',
+			   (PR.PRODUCT_PRICE * OD.SALES_CNT) - 
+			   ((PR.PRODUCT_PRICE / 100.0 * PR.PRODUCT_SALE) * OD.SALES_CNT),
+			   1,
+			   'ADMIN1'
+		FROM ORDERITEM OD JOIN PRODUCT  PR ON OD.PRODUCT_NO = PR.PRODUCT_NO
+						  JOIN PAYMENT  PM ON OD.ORDER_ID   = PM.ORDER_ID
+						  JOIN USERINFO UI ON OD.USER_NO    = UI.USER_NO
+		WHERE OD.ORDER_ID = #{order_id}
+	</insert>
+	
+	<!-- 상품목록 데이터 삭제 -->
+	<delete id="deleteUproduct">DELETE FROM PRODUCT   WHERE PRODUCT_NO = #{product_no}</delete>
+	
+	<!-- 결제목록 데이터 삭제 -->
+	<delete id="deleteUpayment">DELETE FROM PAYMENT   WHERE PRODUCT_NO = #{product_no}</delete>
+	
+	<!-- 배송(주문)목록 데이터 삭제 -->
+	<delete id="deleteUorder"  >DELETE FROM ORDERITEM WHERE PRODUCT_NO = #{product_no}</delete>
 	
 </mapper>

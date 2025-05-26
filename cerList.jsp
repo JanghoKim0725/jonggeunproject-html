@@ -10,13 +10,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>결제시스템</title>
-  <link rel="stylesheet" href="css/total.css" />
+  <link rel="stylesheet" href="../css/total.css" />
+  <script src="../js/jquery-3.7.1.js"></script>
  </head>
  <style>
 	
-	/*취소 / 교환 / 반품 css*/
+	/*주문 / 배송 조회화면 css*/
 	
-	/*부제목(취소/교환/반품)*/
+	/*부제목(주문/배송조회)*/
 	#content_wrap .cer_title {
 		text-align: left;
 		color: #333;
@@ -50,16 +51,16 @@
 		color: #ffffff;
 	}
 	
-	/*전체~취소완료 항목 감싸는 테이블*/
+	/*전체~배송완료 항목 감싸는 테이블*/
 	#content_wrap .cer_tab {
-		margin-top:70px;
+		margin-top:39px;
 		margin-left: 30px;
 		width: 1100px;
 		height: 38px;
 		opacity: 100%;
 	}
 	
-	/*전체~취소완료 항목 리스트*/
+	/*전체~배송완료 항목 리스트*/
 	#content_wrap .cer_tab_list {
 		float: left;
 		font-size: 18px;
@@ -68,7 +69,7 @@
 		margin-right: 5px;
 	}
 	
-	/*전체~취소완료 마우스를 갖다대면 파란색으로 변하는 효과*/
+	/*전체~배송완료 마우스를 갖다대면 파란색으로 변하는 효과*/
 	#content_wrap .cer_tab_list:hover a {
 		color: #2360e6;
 	}
@@ -82,7 +83,7 @@
 		padding: 30px;
 	}
 	
-	/*전체~취소완료 세부항목 케이스*/
+	/*전체~배송완료 세부항목 케이스*/
 	#content_wrap .cer_tab_list_sub {
 		position: absolute;
 		margin-top:-31px;
@@ -90,22 +91,22 @@
 		height:40px;
 	}
 	
-	/*전체~취소완료 마우스를 갖다대면 밑줄이 파란색으로 변하는 효과*/
+	/*전체~배송완료 마우스를 갖다대면 밑줄이 파란색으로 변하는 효과*/
 	#content_wrap .cer_tab_list_sub:hover {
 		border-bottom:2px solid #2360e6;
 	}
 	
-	/*전체~취소완료 폰트케이스*/
+	/*전체~배송완료 폰트케이스*/
 	#content_wrap .cer_tab_list_font {
 		margin-top: -10px;
 	}
 	
 	/*상품정보 메인 테이블*/
 	#content_wrap .cer_main_table {
-		margin-top: -50px;
+		margin-top:-40px;
 		margin-left: 22px;
 		width: 1130px;
-		height: 310px;
+		height: 320px;
 	}
 	
 	/*상품정보 메인 td*/
@@ -131,6 +132,7 @@
 	
 	/*상품상세*/
 	#content_wrap .cer_main_font2 {
+		width: 300px;
 		margin-top: 5px;
 		margin-left: 230px;
 		font-weight: 500;
@@ -140,11 +142,10 @@
 	#content_wrap .cer_main_font3 {
 		width: 100px;
 		height: 170px;
-		margin-top: -20px;
+		margin-top: -42px;
 		margin-left: 700px;
 		font-weight: 500;
-		border-left:  2px solid #d1d1d1;
-		border-right: 2px solid #d1d1d1;	
+		border-left:  2px solid #d1d1d1;	
 	}
 	
 	/*가격*/
@@ -179,8 +180,8 @@
 	}
 	
 	/*주문상세버튼*/
-	#content_wrap .cer_main_button {
-		margin-top:10px;
+	#content_wrap .cer_main_button1 {
+		margin-top: 10px;
 		margin-left: 1000px;
 		width:86px;
 		height: 42px;
@@ -189,7 +190,13 @@
 		opacity: 100%;
 		font-size: 15px;
 		background-color: #ffffff;
-		color: #2360e6;
+	}
+
+	/*페이지 번호*/
+	#content_wrap .cer_main_page {
+		margin-top: 50px;
+		font-size: 50px;
+		font-weight: bold;
 	}
 	
  </style>
@@ -280,29 +287,31 @@
             </div>
             <div class="section">
 				<p class="cer_title">취소/ 교환/ 반품</p><br>
-				<input type="text" class="cer_search" placeholder="상품명을 입력하세요">
-				<button type="button" class="cer_search_button">검색</button><br>
+				<form action="/cerList" method="get">
+					<input type="text" name="keyword" class="cer_search" placeholder="상품명을 입력하세요">
+					<button type="submit" class="cer_search_button">검색</button>
+				</form><br>
 				<div>
 				<table class="cer_tab">
 					<tr>
 						<td>
 							<ul>
 								<li class="cer_tab_list">
-									<a href="#none">
+									<a href="/cerList">
 										<div class="cer_tab_list_sub">
 											<div class="cer_tab_list_font">전체<div>
 										</div>
 									</a>
 								</li>
 								<li class="cer_tab_list">
-									<a href="#none">
+									<a href="/cerListRequest">
 										<div class="cer_tab_list_sub">
 											<div class="cer_tab_list_font">취소신청<div>
 										</div>
 									</a>
 								</li>
 								<li class="cer_tab_list">
-									<a href="#none">
+									<a href="/cerListDone">
 										<div class="cer_tab_list_sub">
 											<div class="cer_tab_list_font">취소완료<div>
 										</div>
@@ -314,26 +323,47 @@
 					<tr><td height="1" border="2" bgcolor="#d1d1d1"></tr>
 				</table>
 				<div style="margin-top:65px;">
-					<table class="cer_main_table">
-						<tr>
-							<td class="cer_main_td">
-								<li class="cer_main_list">
-									<img src="C:\images\product_img.png" class="cer_main_img">
-									<div class="cer_main_font1">락토핏</font></div>
-									<div class="cer_main_font2">락토핏 골드 1통(50일분)</font></div>
-									<div class="cer_main_font3"><div class="cer_main_sub_font1">2개</div></div>
-									<div class="cer_main_font4"><div class="cer_main_sub_font2">135,000원</div></div>
-									<div style="margin-top:-120px;">
-										<button type="button" class="cer_main_button">주문상세</button>
-									</div>
-								</li>
-							</td>
-						</tr>
-					</table>
+					<c:forEach var="result" items="${list}">
+						<table class="cer_main_table">
+							<tr><td>${result.keyword}</td></tr>
+							<tr>
+								<td class="cer_main_td">
+									<li class="cer_main_list">
+										<img src="../data/${result.PRODUCT_IMG}" class="cer_main_img">
+										<div class="cer_main_font1">${result.PRODUCT_NAME}</font></div>
+										<div class="cer_main_font2">${result.PRODUCT_DESCRIPTION}</font></div>
+										<div class="cer_main_font3">
+											<div class="cer_main_sub_font1">${result.SALES_CNT}개</div>
+										</div>
+										<div class="cer_main_font4">
+											<div class="cer_main_sub_font2">
+												<!-- 100000 -> 100,000 -->
+												<fmt:formatNumber value="${(result.PRODUCT_PRICE * result.SALES_CNT)- 
+													  					  ((result.PRODUCT_PRICE / 100.0 * 
+													  					    result.PRODUCT_SALE) * 
+													  					    result.SALES_CNT)}" type="number"/>원
+											</div>
+										</div>
+										<div style="margin-top:-120px;">
+											<button type="button" class="cer_main_button1">
+												<a href="/cerDetail/${result.PRODUCT_NO}">
+													<font color="#2360e6">주문상세</font>
+												</a>
+											</button>
+										</div>
+									</li>
+								</td>
+							</tr>
+						</table>
+					</c:forEach>
+					<div class="cer_main_page" align="center">
+						<c:forEach var="p" begin="1" end="${totalPage}">
+							<a href="/cerList?pageIndex=${p}"><font color="#2360e6">${p}</font></a>
+						</c:forEach>
+					</div>
 				<div>
             </div>
         </div>
-        
     </section>
 
 

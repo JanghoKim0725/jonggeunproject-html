@@ -318,7 +318,7 @@
             </div>
             <div class="section">
 				<p class="ordl_title">주문 / 배송 조회(전체)</p><br>
-				<form action="/ordlList" method="get">
+				<form action="/ordlListDvr" method="get">
 					<input type="text" name="keyword" class="ordl_search" placeholder="상품명을 입력하세요">
 					<button type="submit" class="ordl_search_button">검색</button>
 				</form><br>
@@ -328,27 +328,23 @@
 						<td>
 							<ul>
 								<li class="ordl_tab_list">
-									<a href="#none">
+									<a href="/ordlList">
 										<div class="ordl_tab_list_sub">
-											<div class="ordl_tab_list_font"><a href="/ordlList">전체</a><div>
+											<div class="ordl_tab_list_font">전체<div>
 										</div>
 									</a>
 								</li>
 								<li class="ordl_tab_list">
-									<a href="#none">
+									<a href="/ordlListPay">
 										<div class="ordl_tab_list_sub">
-											<div class="ordl_tab_list_font">
-												<a href="/ordlListPay">결제 완료</a>
-											<div>
+											<div class="ordl_tab_list_font">결제 완료<div>
 										</div>
 									</a>
 								</li>
 								<li class="ordl_tab_list">
-									<a href="#none">
+									<a href="/ordlListDvr">
 										<div class="ordl_tab_list_sub">
-											<div class="ordl_tab_list_font">
-												<a href="/ordlListDvr">배송 완료</a>
-											<div>
+											<div class="ordl_tab_list_font">배송 완료<div>
 										</div>
 									</a>
 								</li>

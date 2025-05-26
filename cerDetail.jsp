@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c"    uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn"   uri="http://java.sun.com/jsp/jstl/functions"%>
 <%  // 100000을 100,000변환 jstl %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,13 +10,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>결제시스템</title>
-  <link rel="stylesheet" href="css/total.css" />
+  <link rel="stylesheet" href="../css/total.css" />
  </head>
  <style>
 	
 	/*주문 상품상세정보 css*/
 	
-	/*부제목(취소 상품 상세정보)*/
+	/*부제목(주문 상품 상세정보)*/
 	#content_wrap .cer_title1 {
 		text-align: left;
 		color: #333;
@@ -25,7 +25,7 @@
 		font-size: 25px;
 	}
 	
-	/*부제목(취소 신청정보)*/
+	/*부제목(취소 신청,환불 정보)*/
 	#content_wrap .cer_title2 {
 		margin-top: 80px;
 		text-align: left;
@@ -35,8 +35,18 @@
 		font-size: 25px;
 	}
 	
-	/*부제목(환불 정보)*/
+	/*부제목(취소 신청 정보)*/
 	#content_wrap .cer_title3 {
+		margin-top: 60px;
+		text-align: left;
+		color: #333;
+		font-weight: 500;
+		margin-left: 30px;
+		font-size: 25px;
+	}
+	
+	/*부제목(환불 정보)*/
+	#content_wrap .cer_title4 {
 		margin-top: 60px;
 		text-align: left;
 		color: #333;
@@ -134,7 +144,7 @@
 		font-weight: 450;
 	}
 	
-	/*소제목(신청일시~결제수단)*/
+	/*소제목(구매자~결제수단)*/
 	#content_wrap .cer_main_font7 {
 		margin-top: 30px;
 		margin-left: 45px;
@@ -143,6 +153,19 @@
 		font-weight: 450;
 	}
 	
+	/*이전버튼*/
+	#content_wrap .cer_main_button1 {
+		margin-top: 20px;
+		margin-left: 530px;
+		width:86px;
+		height: 42px;
+		border-radius: 7px;
+		opacity: 100%;
+		font-size: 15px;
+		background-color: #2360e6;
+		color: #ffffff;
+	}
+		
  </style>
  <body style="overflow:auto;">
 
@@ -230,54 +253,72 @@
                 </ul>
             </div>
             <div class="section">
-				<p class="cer_title1">취소 상품 상세 정보</p>
-				<img src="C:\images\product_img.png" class="cer_main_img">
+				<p class="cer_title1">주문 상품 상세 정보</p>
+				<img src="../data/${dto.product_img}" class="cer_main_img">
 				<div class="Detail_main_goodscase">
-					<div class="cer_main_font1">주문번호 202505052245621762</div>
-					<div class="cer_main_font2">락토핏 유산균(상품명)</div>
-					<div class="cer_main_font3">[건강만땅]락토핏 골드 360포 기획세트+틴케이스+스티커 (360일분)</div>
-					<div class="cer_main_font4"><font color="#2360e6">51%</font> 49,500원</div>
-					<div class="cer_main_font5"><s>100,000원</s></div>
-					<div class="cer_main_font6">238,000원 / 수량2개</div>
+					<div class="cer_main_font1">주문번호 ${dto.order_id}</div>
+					<div class="cer_main_font2">${dto.product_name}(상품명)</div>
+					<div class="cer_main_font3">${dto.product_description}</div>
+					<div class="cer_main_font4">
+						<font color="#2360e6">${dto.product_sale}%</font> 
+						<fmt:formatNumber value="${dto.product_price / 100 * dto.product_sale}" type="number"/>원
+					</div>
+					<div class="cer_main_font5">
+						<s><fmt:formatNumber value="${dto.product_price}" type="number"/>원</s>
+					</div>
+					<div class="cer_main_font6">
+						<fmt:formatNumber value="${dto.product_price * dto.sales_cnt}" type="number"/> / 
+						${dto.sales_cnt}개
+					</div>
 				</div>
 				<p class="cer_title2">취소 신청 정보</p>
 				<div class="Detail_main_canclecase">
 					<div class="cer_main_font7">
 						신청 일시 
-						<font color="#979797" style="margin-left:250px;">2025-05-05 08:26:30</font>
+						<font color="#979797" style="margin-left:250px;">${dto.cancel_date}</font>
 					</div>
 					<div class="cer_main_font7">
 						완료 일시 
-						<font color="#979797" style="margin-left:250px;">2025-05-05 08:26:30</font>
+						<font color="#979797" style="margin-left:250px;">2025-05-05 21:26:30</font>
 					</div>
 					<div class="cer_main_font7">
 						취소 사유 
-						<font color="#979797" style="margin-left:250px;">고객변심</font>
+						<font color="#979797" style="margin-left:250px;">${dto.cancel_reason}</font>
 					</div>	
 				</div>
 				<p class="cer_title3">환불 정보</p>
 				<div class="Detail_main_refundcase">
 					<div class="cer_main_font7">
 						상품 금액 
-						<font color="#979797" style="margin-left:250px;">280,900원</font>
+						<font color="#979797" style="margin-left:250px;">
+							<fmt:formatNumber value="${dto.product_price * dto.sales_cnt}" type="number"/>원
+						</font>
 					</div>
 					<div class="cer_main_font7">
 						할인 금액 
-						<font color="#2360e6" style="margin-left:250px;">-35,000원</font>
+						<font color="#2360e6" style="margin-left:250px;">
+							-<fmt:formatNumber value="${(dto.product_price / 100 * dto.product_sale) * dto.sales_cnt}" 
+											   type="number"/>원
+						</font>
 					</div>
 					<div class="cer_main_font7">
 						배송비 
-						<font color="#2360e6" style="margin-left:270px;">무료배송</font>
+						<font color="#2360e6" style="margin-left:270px;">${dto.delivery_fee}</font>
 					</div>
 					<div class="cer_main_font7">
 						결제 금액 
-						<font style="margin-left:250px;">125,000원</font>
+						<font style="margin-left:250px;">
+							<fmt:formatNumber value="${(dto.product_price * dto.sales_cnt) - 
+													  ((dto.product_price / 100.0 * dto.product_sale) 
+													  * dto.sales_cnt)}" type="number" />원
+						</font>
 					</div>
 					<div class="cer_main_font7">
 						결제 수단 
-						<font color="#979797" style="margin-left:250px;">농협카드(일시불)</font>
+						<font color="#979797" style="margin-left:250px;">${dto.pay_method}</font>
 					</div>
 				</div>
+				<button type="button" class="cer_main_button1">이전</button>
             </div>
         </div>
         

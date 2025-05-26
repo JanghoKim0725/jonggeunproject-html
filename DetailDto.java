@@ -19,6 +19,9 @@ public class DetailDto {
 	String 	   recipient_phone;
 	String 	  delivery_request;
 	String 		 	pay_method;
+	String   	   cancel_date;
+	String  	 cancel_reason;
+	
 	
 	public int getProduct_no() {return product_no;}
 	public void setProduct_no(int product_no) {this.product_no = product_no;}
@@ -60,5 +63,11 @@ public class DetailDto {
 	public void setDelivery_request(String delivery_request) {this.delivery_request = delivery_request;}
 	
 	public String getPay_method() {return pay_method;}
-	public void setPay_method(String pay_method) {this.pay_method = pay_method;}	
+	public void setPay_method(String pay_method) {this.pay_method = pay_method;}
+	
+	public String getCancel_date() {return cancel_date;}
+	public void setCancel_date(String cancel_date) {this.cancel_date = cancel_date;}
+	
+	public String getCancel_reason() {return cancel_reason;}
+	public void setCancel_reason(String cancel_reason) {this.cancel_reason = cancel_reason;}	
 }
