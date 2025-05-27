@@ -406,10 +406,10 @@
             <form id="modalFrm" method="post" action="/updateRecipientInfo">
                <input type="hidden" id="order_id" name="order_id" value="${order_id}" />
                <input type="hidden" id="recipient_name_hidden" name="recipient_name_hidden" />
-             <input type="hidden" id="postcode_hidden" name="postcode_hidden" />
-             <input type="hidden" id="address_hidden" name="address_hidden" />
-             <input type="hidden" id="extraAddress_hidden" name="extraAddress_hidden" />
-             <input type="hidden" id="detailAddress_hidden" name="detailAddress_hidden" />
+               <input type="hidden" id="postcode_hidden" name="postcode_hidden" />
+               <input type="hidden" id="address_hidden" name="address_hidden" />
+               <input type="hidden" id="extraAddress_hidden" name="extraAddress_hidden" />
+               <input type="hidden" id="detailAddress_hidden" name="detailAddress_hidden" />
              
                <div id="modal_con"class="modal_con center">
                 <div class="modal_header">

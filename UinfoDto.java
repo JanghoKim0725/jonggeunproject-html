@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UinfoDto {
 
-	int 	    user_no;
+	private int 	    user_no;
 	String      user_id;
 	String    user_pass;
 	String    user_name;

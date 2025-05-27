@@ -3,7 +3,6 @@
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <%  // 100000을 100,000변환 jstl %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
- 
 <!DOCTYPE html>
 <html lang="ko">
  <head>
@@ -13,80 +12,6 @@
   <link rel="stylesheet" href="../css/total.css" />
   <script src="../js/jquery-3.7.1.js"></script>
  </head>
- <script>
- 
- 	 function fn_modal(admin_id) {
- 		 
- 		 const modal = document.getElementById('deliveryCancle_modal');
- 	     modal.classList.remove('hidden');
- 	 }
- 
-	 $(function() {
-	 	const openModalBtn   = document.querySelectorAll('.ordl_main_button2');
-	   	const closeModalBtn  = document.getElementById('closeModalBtn'); 
-	   	const cancelModalBtn = document.getElementById('cancelModalBtn');
-	   
-	   	closeModalBtn.addEventListener('click',() => {
-		   	deliveryCancle_modal.classList.add('hidden');
-	   	})
-	   
-	   	cancelModalBtn.addEventListener('click',() => {
-		   	deliveryCancle_modal.classList.add('hidden');
-	   	})
-	 });
-	 
-	 $(function() {
-		 
-		 $("#modal_saveBtn").on("click",function() {
-			 
-			 let cancel_num    = $.trim($("#cancel_num"   ).val());
-			 let order_id      = $.trim($("#order_id"     ).val());
-			 let pay_id        = $.trim($("#pay_id"       ).val());
-			 let user_id       = $.trim($("#user_id"   	  ).val());
-			 let cancel_reason = $.trim($("#cancel_reason").val());
-			 let cancel_date   = $.trim($("#cancel_date"  ).val());
-			 let cancel_status = $.trim($("#cancel_status").val());
-			 let refund_price  = $.trim($("#refund_price" ).val());
-		 	 let user_no	   = $.trim($("#user_no"	  ).val());
-		 	 let admin_id      = $.trim($("#admin_id"	  ).val());
-			 
-			 // 취소사유 선택값
-			 let select = $("#select").val();
-			 
-			 if($("#recipient_name").val() == "") {
-				alert("사용자 아이디를 입력하세요.");
-				$("#recipient_name").focus();
-				return false;
-			 }
-			 
-			 if (select == "0") {
-			 	alert("취소 사유를 선택해주세요.");
-			    $("#select").focus();
-			    return false;
-			 }
-			 
-			 //ajax : {비동기}전송
-			 let form = $("#modalFrm").serialize(); // serialize() : 폼을 인식하는 함수
-			 $.ajax({
-				type	 : "post",	//전송타입
-				url		 : "/cancelOrder", //전송장소
-				data     : form,   //전송데이터
-				dataType : "text", //받는 데이터 타입
-				// success : 전송에 성공한 경우
-				// let data = "ok";
-				success  : function(data) { // data변수 : 실제 받은 데이터 값
-					if(data == "ok") { 		// data변수 값이 "ok" 라면 저장 성공으로 판단함
-						alert("취소완료!");
-						location = "/cerList";
-					}
-					else if( data == "2" ) alert("정보를 잘못 입력하셨습니다.");
-					else 				   alert("전송실패");
-				},
-				error 	 : function() 	  {alert("오류발생!");}
-			 });
-		 }); 
-	 });
- </script>
  <style>
 	
 	/*주문 / 배송 조회화면 css*/
@@ -424,10 +349,11 @@
 										<div class="ordl_main_font4">
 											<div class="ordl_main_sub_font2">
 												<!-- 100000 -> 100,000 -->
-												<fmt:formatNumber value="${(result.PRODUCT_PRICE * result.SALES_CNT)- 
+												<span><fmt:formatNumber value="${(result.PRODUCT_PRICE * result.SALES_CNT)- 
 													  					  ((result.PRODUCT_PRICE / 100.0 * 
 													  					    result.PRODUCT_SALE) * 
-													  					    result.SALES_CNT)}" type="number"/>원
+													  					    result.SALES_CNT)}" /></span>원
+													  					 
 											</div>
 										</div>
 										<div style="margin-top:-120px;">
@@ -437,7 +363,14 @@
 												</a>
 											</button><br>
 											<button type="button" class="ordl_main_button2" 
-													onclick="fn_modal('${result.ADMIN_ID}');">
+													onclick="fn_modal('${result.ORDER_ID}',
+																	  '${result.PAY_ID}',
+																	  '${(result.PRODUCT_PRICE * result.SALES_CNT)- 
+													  					((result.PRODUCT_PRICE / 100.0 * 
+													  					  result.PRODUCT_SALE) * 
+													  					  result.SALES_CNT)}',
+													  				  '${result.PRODUCT_NO}',
+													  				  '${result.USER_NO}')">
 												주문취소
 											</button>
 										</div>
@@ -459,15 +392,11 @@
         <!-- modal start -->
         <div id="deliveryCancle_modal" class="modal_container hidden">
         	<form id="modalFrm" method="post">
-            	<input type="hidden" id="cancel_num" 	name="cancel_num"   />
-                <input type="hidden" id="order_id"   	name="order_id"     />
-                <input type="hidden" id="pay_id"     	name="pay_id"       />
-                <input type="hidden" id="user_id"    	name="user_id"      />
-                <input type="hidden" id="cancel_reason" name="cancel_reason"/>
-                <input type="hidden" id="cancel_date"   name="cancel_date"  />
-                <input type="hidden" id="refund_price"  name="refund_price" />
-                <input type="hidden" id="user_no"       name="user_no"      />
-                <input type="hidden" id="admin_id"      name="admin_id"	    />
+                <input type="hidden" id="order_id" name="order_id" />
+                <input type="hidden" id="pay_id" name="pay_id"   />
+                <input type="hidden" id="refund_price" name="refund_price"/>
+                <input type="hidden" id="product_no"   name="product_no"/>
+                <input type="hidden" id="user_no"      name="user_no"/>
                 <div id="modal_con"class="modal_con center">
 	                <div class="modal_header">
 	                    <h2>배송지 취소</h2>
@@ -477,20 +406,15 @@
 	                </div>
                 	<div class="modal_body">
                   		<div class="modal_inner">
-                     		<p>사용자</p>
-                     		<input type="text" id="recipient_name" name="recipient_name" 
-                     			   placeholder="사용자아이디를 입력하세요.">
-                  		</div>
-                  		<div class="modal_inner">
                      		<p>취소 사유사항(선택)</p>
-                     		<select name="select" id="select">
-                        		<option value="0" selected>취소 사유를 말씀해주세요.</option>
-                        		<option value="1">단순변심</option>
-                        		<option value="2">허위상표</option>
-                        		<option value="3">물품파기</option>
-                        		<option value="4">품질불량</option>
-                        		<option value="5">배송지연</option>
-                        		<option value="6">배송오류(잘못된물건)</option>
+                     		<select name="cancel_reason" id="cancel_reason">
+                        		<option value="" selected>취소 사유를 말씀해주세요.</option>
+                        		<option value="단순변심">단순변심</option>
+                        		<option value="허위상표">허위상표</option>
+                        		<option value="물품찾기">물품파기</option>
+                        		<option value="품질불량">품질불량</option>
+                        		<option value="배송지연">배송지연</option>
+                        		<option value="배송오류">배송오류(잘못된물건)</option>
                      		</select>
                   		</div>
                  	</div>
@@ -515,4 +439,73 @@
 
 
  </body>
+ <script>
+ 
+ 	 function fn_modal(order_id,pay_id,refund_price,product_no) {
+ 		 
+ 		 const modal = document.getElementById('deliveryCancle_modal');
+ 	     modal.classList.remove('hidden');
+ 	     
+ 	     document.getElementById('order_id'    ).value = order_id;
+ 	     document.getElementById('pay_id'      ).value = pay_id;
+ 	     document.getElementById('refund_price').value = refund_price;
+ 	     document.getElementById('product_no'  ).value = product_no;
+ 	 }
+ 
+	 $(function() {
+	 	const openModalBtn   = document.querySelectorAll('.ordl_main_button2');
+	   	const closeModalBtn  = document.getElementById('closeModalBtn'); 
+	   	const cancelModalBtn = document.getElementById('cancelModalBtn');
+	   
+	   	closeModalBtn.addEventListener('click',() => {
+		   	deliveryCancle_modal.classList.add('hidden');
+	   	})
+	   
+	   	cancelModalBtn.addEventListener('click',() => {
+		   	deliveryCancle_modal.classList.add('hidden');
+	   	})
+	 });
+	 
+	 $(function() {
+		 
+		 $("#modal_saveBtn").on("click",function() {
+			 
+			 let cancel_num    = $.trim($("#cancel_num"   ).val());
+			 let order_id      = $.trim($("#order_id"     ).val());
+			 let pay_id        = $.trim($("#pay_id"       ).val());
+			 let user_id       = $.trim($("#user_id"   	  ).val());
+			 let cancel_reason = $.trim($("#cancel_reason").val());
+			 let cancel_date   = $.trim($("#cancel_date"  ).val());
+			 let cancel_status = $.trim($("#cancel_status").val());
+			 let refund_price  = $.trim($("#refund_price" ).val());
+		 	 let user_no	   = $.trim($("#user_no"	  ).val());
+		 	 let admin_id      = $.trim($("#admin_id"	  ).val());
+		 	 let product_no    = $.trim($("#product_no"   ).val());
+			 
+			 if (cancel_reason == "") {
+			 	alert("취소 사유를 선택해주세요.");
+			    $("#cancel_reason").focus();
+			    return false;
+			 }
+			 
+			 //ajax : {비동기}전송
+			 let form = $("#modalFrm").serialize(); // serialize() : 폼을 인식하는 함수
+			 $.ajax({
+				type	 : "post",	//전송타입
+				url		 : "cancelOrder", //전송장소
+				data     : form,   //전송데이터
+				dataType : "text", //받는 데이터 타입
+				// success : 전송에 성공한 경우
+				// let data = "ok";
+				success  : function(data) { // data변수 : 실제 받은 데이터 값
+					if(data == "ok") { 		// data변수 값이 "ok" 라면 저장 성공으로 판단함
+						alert("취소완료!");
+						location = "/cerList";
+					}
+				},
+				error 	 : function() 	     {alert("오류발생!");}
+			 });
+		 }); 
+	 });
+ </script>
 </html>

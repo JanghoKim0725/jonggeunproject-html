@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.myhome.dto.UorderDto;
 import com.myhome.dto.UpaymentDto;
 import com.myhome.dto.UproductDto;
 import com.myhome.dto.DetailDto;
-import com.myhome.dto.NboardDto;
 import com.myhome.dto.UcancelDto;
 import com.myhome.service.JonggeunService;
 
@@ -28,38 +26,38 @@ public class JonggeunController {
 	
 	// 주문/배송 조회 기본화면
 	@GetMapping("ordlList")
-	public String selectOrdlList(UproductDto upr,ModelMap model) throws Exception {
+	public String selectOrdlList(UorderDto ord,ModelMap model) throws Exception {
 		
 		// 화면에 출력되는 항목개수
-		int pageUnit = upr.getPageUnit();
+		int pageUnit = ord.getPageUnit();
 		
 		// 총 데이터 개수
-		int total = jonggeunService.selectDataTotal(upr);
+		int total = jonggeunService.selectDataTotal1(ord);
 		// 연산처리를 위해 dto에 값을 보냄
-		upr.setTotal(total);
+		ord.setTotal(total);
 		
 		// (double)15/10 -> Math.ceil(1.5) -> (int)2.0 -> 2 페이지 출력배열
 		// 총페이지 개수를 계산 시키는 장면
-		upr.setTotalpage();
+		ord.setTotalpage();
 		// 계산 후 결과를 얻어옴
-		int totalPage  = upr.getTotalpage();
+		int totalPage  = ord.getTotalpage();
 		
 		// 출력페이지번호
-		int pageIndex  = upr.getPageIndex();
+		int pageIndex  = ord.getPageIndex();
 		
 		// 출력페이지의 시작 행번호
-		upr.setPageRownum();
-		int pageRownum = upr.getPageRownum();
+		ord.setPageRownum();
+		int pageRownum = ord.getPageRownum();
 		
 		// SQL에 적용할 시작번호
-		upr.setFirstIndex();
-		int firstIndex = upr.getFirstIndex();
+		ord.setFirstIndex();
+		int firstIndex = ord.getFirstIndex();
 		
 		// SQL에 적용할 종료번호
-		upr.setLastIndex();
-		int lastIndex  = upr.getLastIndex();
+		ord.setLastIndex();
+		int lastIndex  = ord.getLastIndex();
 		
-		List<?> list1 = jonggeunService.selectOrdlList(upr);
+		List<?> list1 = jonggeunService.selectOrdlList(ord);
 		
 		model.addAttribute("list",list1); // (변수명,데이터값)
 		model.addAttribute("total", total);
@@ -71,38 +69,38 @@ public class JonggeunController {
 	
 	// 취소/교환/반품 기본화면
 	@GetMapping("cerList")
-	public String selectCerList(UproductDto upr,ModelMap model) throws Exception {
+	public String selectCerList(UcancelDto ucl,ModelMap model) throws Exception {
 		
 		// 화면에 출력되는 항목개수
-		int pageUnit = upr.getPageUnit();
+		int pageUnit = ucl.getPageUnit();
 		
 		// 총 데이터 개수
-		int total = jonggeunService.selectDataTotal(upr);
+		int total = jonggeunService.selectDataTotal2(ucl);
 		// 연산처리를 위해 dto에 값을 보냄
-		upr.setTotal(total);
+		ucl.setTotal(total);
 		
 		// (double)15/10 -> Math.ceil(1.5) -> (int)2.0 -> 2 페이지 출력배열
 		// 총페이지 개수를 계산 시키는 장면
-		upr.setTotalpage();
+		ucl.setTotalpage();
 		// 계산 후 결과를 얻어옴
-		int totalPage  = upr.getTotalpage();
+		int totalPage  = ucl.getTotalpage();
 		
 		// 출력페이지번호
-		int pageIndex  = upr.getPageIndex();
+		int pageIndex  = ucl.getPageIndex();
 		
 		// 출력페이지의 시작 행번호
-		upr.setPageRownum();
-		int pageRownum = upr.getPageRownum();
+		ucl.setPageRownum();
+		int pageRownum = ucl.getPageRownum();
 		
 		// SQL에 적용할 시작번호
-		upr.setFirstIndex();
-		int firstIndex = upr.getFirstIndex();
+		ucl.setFirstIndex();
+		int firstIndex = ucl.getFirstIndex();
 		
 		// SQL에 적용할 종료번호
-		upr.setLastIndex();
-		int lastIndex  = upr.getLastIndex();
+		ucl.setLastIndex();
+		int lastIndex  = ucl.getLastIndex();
 		
-		List<?> list1 = jonggeunService.selectCerList(upr);
+		List<?> list1 = jonggeunService.selectCerList(ucl);
 		
 		model.addAttribute("list",list1); // (변수명,데이터값)
 		model.addAttribute("total", total);
@@ -114,38 +112,38 @@ public class JonggeunController {
 	
 	// 주문/배송 조회 결제완료순 화면
 	@GetMapping("ordlListPay")
-	public String selectOrdlListPay(UproductDto upr,ModelMap model) throws Exception {
+	public String selectOrdlListPay(UproductDto upr,UpaymentDto upy,ModelMap model) throws Exception {
 		
 		// 화면에 출력되는 항목개수
-		int pageUnit  = upr.getPageUnit();
+		int pageUnit  = upy.getPageUnit();
 		
 		// 총 데이터 개수 (결제완료된 데이터개수만 출력)
-		int total = jonggeunService.selectDataTotalPay(upr);
+		int total = jonggeunService.selectDataTotalPay(upy);
 		// 연산처리를 위해 dto에 값을 보냄
-		upr.setTotal(total);
+		upy.setTotal(total);
 		
 		// (double)15/10 -> Math.ceil(1.5) -> (int)2.0 -> 2 페이지 출력배열
 		// 총페이지 개수를 계산 시키는 장면
-		upr.setTotalpage();
+		upy.setTotalpage();
 		// 계산 후 결과를 얻어옴
-		int totalPage  = upr.getTotalpage();
+		int totalPage  = upy.getTotalpage();
 		
 		// 출력페이지번호
-		int pageIndex  = upr.getPageIndex();
+		int pageIndex  = upy.getPageIndex();
 		
 		// 출력페이지의 시작 행번호
-		upr.setPageRownum();
-		int pageRownum = upr.getPageRownum();
+		upy.setPageRownum();
+		int pageRownum = upy.getPageRownum();
 		
 		// SQL에 적용할 시작번호
-		upr.setFirstIndex();
-		int firstIndex = upr.getFirstIndex();
+		upy.setFirstIndex();
+		int firstIndex = upy.getFirstIndex();
 		
 		// SQL에 적용할 종료번호
-		upr.setLastIndex();
-		int lastIndex  = upr.getLastIndex();
+		upy.setLastIndex();
+		int lastIndex  = upy.getLastIndex();
 		
-		List<?> list  = jonggeunService.selectOrdlListPay2(upr);
+		List<?> list  = jonggeunService.selectOrdlListPay2(upy);
 		
 		model.addAttribute("list",list); // (변수명,데이터값)
 		model.addAttribute("total", total);
@@ -157,38 +155,38 @@ public class JonggeunController {
 	
 	// 주문/배송 조회 배송완료순 화면
 	@GetMapping("ordlListDvr")
-	public String selectOrdlListDvr(UproductDto upr,ModelMap model) throws Exception {
+	public String selectOrdlListDvr(UproductDto upr,UorderDto ord,ModelMap model) throws Exception {
 		
 		// 화면에 출력되는 항목개수
-		int pageUnit  = upr.getPageUnit();
+		int pageUnit  = ord.getPageUnit();
 		
 		// 총 데이터 개수 (배송(주문)완료된 데이터개수만 출력)
-		int total = jonggeunService.selectDataTotalDvr(upr);
+		int total = jonggeunService.selectDataTotalDvr(ord);
 		// 연산처리를 위해 dto에 값을 보냄
-		upr.setTotal(total);
+		ord.setTotal(total);
 		
 		// (double)15/10 -> Math.ceil(1.5) -> (int)2.0 -> 2 페이지 출력배열
 		// 총페이지 개수를 계산 시키는 장면
-		upr.setTotalpage();
+		ord.setTotalpage();
 		// 계산 후 결과를 얻어옴
-		int totalPage  = upr.getTotalpage();
+		int totalPage  = ord.getTotalpage();
 		
 		// 출력페이지번호
-		int pageIndex  = upr.getPageIndex();
+		int pageIndex  = ord.getPageIndex();
 		
 		// 출력페이지의 시작 행번호
-		upr.setPageRownum();
-		int pageRownum = upr.getPageRownum();
+		ord.setPageRownum();
+		int pageRownum = ord.getPageRownum();
 		
 		// SQL에 적용할 시작번호
-		upr.setFirstIndex();
-		int firstIndex = upr.getFirstIndex();
+		ord.setFirstIndex();
+		int firstIndex = ord.getFirstIndex();
 		
 		// SQL에 적용할 종료번호
-		upr.setLastIndex();
-		int lastIndex  = upr.getLastIndex();
+		ord.setLastIndex();
+		int lastIndex  = ord.getLastIndex();
 		
-		List<?> list  = jonggeunService.selectOrdlListDvr2(upr);
+		List<?> list  = jonggeunService.selectOrdlListDvr2(ord);
 		
 		model.addAttribute("list",list); // (변수명,데이터값)
 		model.addAttribute("total", total);
@@ -200,38 +198,38 @@ public class JonggeunController {
 	
 	// 취소/교환/반품  추소 신청순 화면
 	@GetMapping("cerListRequest")
-	public String selectCerListRequest(UproductDto upr,ModelMap model) throws Exception {
+	public String selectCerListRequest(UproductDto upr,UcancelDto ucl,ModelMap model) throws Exception {
 		
 		// 화면에 출력되는 항목개수
-		int pageUnit  = upr.getPageUnit();
+		int pageUnit  = ucl.getPageUnit();
 		
 		// 총 데이터 개수 (취소신청된 데이터개수만 출력)
-		int total = jonggeunService.selectDataTotalRequest(upr);
+		int total = jonggeunService.selectDataTotalRequest(ucl);
 		// 연산처리를 위해 dto에 값을 보냄
-		upr.setTotal(total);
+		ucl.setTotal(total);
 		
 		// (double)15/10 -> Math.ceil(1.5) -> (int)2.0 -> 2 페이지 출력배열
 		// 총페이지 개수를 계산 시키는 장면
-		upr.setTotalpage();
+		ucl.setTotalpage();
 		// 계산 후 결과를 얻어옴
-		int totalPage  = upr.getTotalpage();
+		int totalPage  = ucl.getTotalpage();
 		
 		// 출력페이지번호
-		int pageIndex  = upr.getPageIndex();
+		int pageIndex  = ucl.getPageIndex();
 		
 		// 출력페이지의 시작 행번호
-		upr.setPageRownum();
-		int pageRownum = upr.getPageRownum();
+		ucl.setPageRownum();
+		int pageRownum = ucl.getPageRownum();
 		
 		// SQL에 적용할 시작번호
-		upr.setFirstIndex();
-		int firstIndex = upr.getFirstIndex();
+		ucl.setFirstIndex();
+		int firstIndex = ucl.getFirstIndex();
 		
 		// SQL에 적용할 종료번호
-		upr.setLastIndex();
-		int lastIndex  = upr.getLastIndex();
+		ucl.setLastIndex();
+		int lastIndex  = ucl.getLastIndex();
 		
-		List<?> list  = jonggeunService.selectCerListRequest2(upr);
+		List<?> list  = jonggeunService.selectCerListRequest2(ucl);
 		
 		model.addAttribute("list",list); // (변수명,데이터값)
 		model.addAttribute("total", total);
@@ -265,21 +263,12 @@ public class JonggeunController {
 	
 	@PostMapping("cancelOrder")
 	@ResponseBody 
-	public String cancelOrder(UproductDto upr,UcancelDto ucl,UpaymentDto upy,UorderDto ord) throws Exception {
+	public String cancelOrder(UcancelDto ucl,UpaymentDto upy,UorderDto ord) throws Exception {
 		
-		//서비스 실행
-		String message = "ok";
-		System.out.println("1111111");
 		int result1 = jonggeunService.insertCancelOrder(ucl);
-		System.out.println("222222");
-		int result2 = jonggeunService.deleteUproduct(upr);
-		System.out.println("3333333");
-		int result3 = jonggeunService.deleteUpayment(upy);
-		System.out.println("4444444");
-		int result4 = jonggeunService.deleteUorder(ord);
-		System.out.println("5555555");
-		if( result1 == 0 || result2 == 0 || result3 == 0 || result4 == 0) message = "fail";
-		
-		return message;
+		int result2 = jonggeunService.deleteUpayment(upy);
+		int result3 = jonggeunService.deleteUorder(ord);
+
+		return "jonggeun/cerList";
 	}
 }

@@ -17,42 +17,46 @@ public class JonggeunServiceImpl implements JonggeunService {
 
 	// 주문/배송 조회목록 출력 + 검색기능 추가 (본데이터)
 	@Override
-	public List<?>     selectOrdlList(UproductDto dto) throws Exception {return mapper.selectOrdlList(dto);}
+	public List<?>     selectOrdlList(UorderDto ord) throws Exception {return mapper.selectOrdlList(ord);}
 	
 	// 주문/배송 조회목록 출력 + 검색기능 추가 + 결제완료순 출력
 	@Override
-	public List<?> selectOrdlListPay2(UproductDto upr) throws Exception {return mapper.selectOrdlListPay2(upr);}
+	public List<?> selectOrdlListPay2(UpaymentDto upy) throws Exception {return mapper.selectOrdlListPay2(upy);}
 	
 	// 주문/배송 조회목록 출력 + 검색기능 추가 + 배송(주문)완료순 출력
 	@Override
-	public List<?> selectOrdlListDvr2(UproductDto upr) throws Exception {return mapper.selectOrdlListDvr2(upr);}
+	public List<?> selectOrdlListDvr2(UorderDto ord) throws Exception {return mapper.selectOrdlListDvr2(ord);}
 	
-	// 페이지 출력
+	// 페이지 출력 (주문배송조회 전체)
 	@Override
-	public int 	      selectDataTotal(UproductDto dto) throws Exception {return mapper.selectDataTotal(dto);}
+	public int  selectDataTotal1(UorderDto ord) throws Exception {return mapper.selectDataTotal1(ord);}
+	
+	// 페이지 출력 (취소교환반품 전체)
+	@Override
+	public int  selectDataTotal2(UcancelDto ucl) throws Exception {return mapper.selectDataTotal2(ucl);}
 	
 	// 주문/배송 조회목록 (결제완료된 데이터개수만큼의) 페이지 출력
 	@Override
-	public int selectDataTotalPay(UproductDto upr) throws Exception {return mapper.selectDataTotalPay(upr);}
+	public int selectDataTotalPay(UpaymentDto upy) throws Exception {return mapper.selectDataTotalPay(upy);}
 	
 	// 주문/배송 조회목록 (배송(주문)완료된 데이터개수만큼의) 페이지 출력
 	@Override
-	public int selectDataTotalDvr(UproductDto upr) throws Exception {return mapper.selectDataTotalDvr(upr);}
+	public int selectDataTotalDvr(UorderDto ord) throws Exception {return mapper.selectDataTotalDvr(ord);}
 	
 	// 취소/교환/반품목록 출력 + 검색기능 추가(본데이터)
 	@Override
-	public List<?> selectCerList(UproductDto upr) throws Exception {return mapper.selectCerList(upr);}
+	public List<?> selectCerList(UcancelDto ucl) throws Exception {return mapper.selectCerList(ucl);}
 
 	// 취소/교환 반품목록 + 검색기능 추가 + 취소신청날짜순 출력
 	@Override
-	public List<?> selectCerListRequest2(UproductDto upr) throws Exception {
-		return mapper.selectCerListRequest2(upr);
+	public List<?> selectCerListRequest2(UcancelDto ucl) throws Exception {
+		return mapper.selectCerListRequest2(ucl);
 	}
 	
 	// 취소/교환/반품목록 (취소신청된 데이터개수만큼의) 페이지 출력
 	@Override
-	public int selectDataTotalRequest(UproductDto upr) throws Exception {
-		return mapper.selectDataTotalRequest(upr);
+	public int selectDataTotalRequest(UcancelDto ucl) throws Exception {
+		return mapper.selectDataTotalRequest(ucl);
 	}
 	
 	// 주문/배송 상품 상세정보 
@@ -66,10 +70,6 @@ public class JonggeunServiceImpl implements JonggeunService {
 	// 취소목록에 삽입
 	@Override
 	public int insertCancelOrder(UcancelDto ucl) throws Exception {return mapper.insertCancelOrder(ucl);}
-	
-	// 상품목록에서 삭제
-	@Override
-	public int 	 deleteUproduct(UproductDto upr) throws Exception {return mapper.deleteUproduct(upr);}
 
 	// 결제완료내역에서 삭제
 	@Override
